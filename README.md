@@ -3,6 +3,12 @@
 `#` = executed as superuser (or using `sudo`) \
 `$` = regular prompt
 
+0. ### Install java if it isn't yet:
+
+```
+# apt install openjdk-17-jre
+```
+
 1. ### Create a new account:
 
 ```
