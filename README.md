@@ -6,6 +6,7 @@
 0. ### Install java if it isn't yet:
 
 ```
+# apt update && apt upgrade
 # apt install openjdk-17-jre
 ```
 
