@@ -66,24 +66,31 @@ $ mkdir -p ~/.config/systemd/user
 Then create the file `~/.config/systemd/user/minecraft.service`:
 ```ini
 [Unit]
-Description=Minecraft Server # Set your description.
-After=network.target # Wait for network before we run.
+# Set your description.
+Description=Minecraft Server
+# Wait for network before we run.
+After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/home/<user>/server # Directory server is located in.
+# Directory server is located in.
+WorkingDirectory=/home/<user>/server
 
-Sockets=minecraft.socket # The socket is our way of communicating with the server console, using 'mcmd' later.
+# The socket is our way of communicating with the server console, using 'mcmd' later.
+Sockets=minecraft.socket
 StandardInput=socket
 StandardOutput=journal
 StandardError=journal
 
-ExecStart=/bin/sh -c "./start.sh" # local path to your start script in the server directory.
-ExecStop=/bin/sh -c "echo stop > /tmp/minecraft_<user>" # switch <user> for the username of this account.
+# local path to your start script in the server directory.
+ExecStart=/bin/sh -c "./start.sh"
+# switch <user> for the username of this account.
+ExecStop=/bin/sh -c "echo stop > /tmp/minecraft_<user>"
 Restart=on-failure
 RestartSec=30s
 
-KillSignal=SIGCONT # This actually says to systemd "to kill this process, tell it to continue running. We do this as minecraft handles shutdown via the 'stop' command and won't shut down right if we kill it.
+# This actually says to systemd "to kill this process, tell it to continue running. We do this as minecraft handles shutdown via the 'stop' command and won't shut down right if we kill it.
+KillSignal=SIGCONT
 
 [Install]
 WantedBy=default.target
@@ -93,13 +100,17 @@ Adjust this to your needs and save.
 Next, create the socket at `~/.config/systemd/user/minecraft.socket`:
 ```ini
 [Unit]
-BindsTo=minecraft.service # this may be different if you changed the service name.
+# this may be different if you changed the service name.
+BindsTo=minecraft.service
 
 [Socket]
-ListenFIFO=/tmp/minecraft_<user> # fill this in the same as before
+# fill this in the same as before
+ListenFIFO=/tmp/minecraft_<user>
 Service=minecraft.service
-SocketUser=<user> # fill this in with the user we are on
-SocketGroup=<user> # fill this in with the user we are on
+# fill this in with the user we are on
+SocketUser=<user>
+# fill this in with the user we are on
+SocketGroup=<user>
 RemoveOnStop=true
 SocketMode=0600
 ```
