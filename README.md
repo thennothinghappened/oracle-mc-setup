@@ -92,6 +92,9 @@ RestartSec=30s
 # This actually says to systemd "to kill this process, tell it to continue running. We do this as minecraft handles shutdown via the 'stop' command and won't shut down right if we kill it.
 KillSignal=SIGCONT
 
+# don't let systemd kill minecraft because it was slow to close!! (can further raise this or set to 'infinity')
+TimeoutStopSec=240s
+
 [Install]
 WantedBy=default.target
 ```
@@ -113,6 +116,9 @@ SocketUser=<user>
 SocketGroup=<user>
 RemoveOnStop=true
 SocketMode=0600
+
+[Install]
+WantedBy=default.target
 ```
 
 8. ### Test the service:
